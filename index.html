@@ -1,0 +1,56 @@
+<doctype HTML></doctype>
+<html>
+<head></head>
+
+<style>
+
+
+</style>
+
+<body>
+    <canvas id="mainCanvas" width="500" height="500" style="1px solid black"></canvas>
+    
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+    function startDrawing (canvasId) {
+        var mainCanvas = document.getElementById(canvasId);
+        var drawingContext = mainCanvas.getContext('2d');
+        return drawingContext;
+    }  
+    
+    var ctx = startDrawing("mainCanvas");
+   
+
+    
+    var socket = io();
+        
+    socket.on('canvas', function(ballArr){
+       
+        ctx.clearRect(0,0,500,300);
+        
+        for(var i=0;i<ballArr.length;i++){
+            var thisBall=ballArr[i];
+            drawBall(thisBall);
+            console.log('>>>>', i, thisBall);
+        }
+        
+       
+//        drawDisc(msg.x, msg.y, 30);
+        
+    //  document.getElementById("mainCanvas").innerHTML = msg;
+    });
+
+        function drawBall(thisBall) {
+            ctx.beginPath();
+            ctx.arc(thisBall.x, thisBall.y, 30, 0, 2*Math.PI, false);
+            ctx.fill();
+            ctx.closePath();
+        }
+    
+
+
+      
+  </script>
+</body>
+</html>
